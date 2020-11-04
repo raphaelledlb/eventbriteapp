@@ -4,5 +4,6 @@ class EventsController < ApplicationController
   end
 
   def new
+    Event.create
   end
 end
