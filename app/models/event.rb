@@ -1,17 +1,44 @@
 class Event < ApplicationRecord
 
-    validates :start_date, presence: true, inclusion: { in: (Date.today..Date.today+100.years) }
-    validates :duration,  presence: true, numericality: { greater_than: 0}, if: :multiple_5?
-    validates :title, presence: true, length: {minimum: 5, maximum: 140}, allow_blank: true
-    validates :description, presence: true, length: {minimum: 20, maximum: 1000}, allow_blank: true
-    validates :price, :numericality => {:greater_than => 1, :less_than => 1001}
-    validates :location, presence: true 
-
-    def multiple_5?
-        errors.add(:duration, "must be a multiple of 5") if
-        duration % 5 != 0
-    end
-
     has_many :attendances
     has_many :users, through: :attendances
-end
+    belongs_to :organizer, class_name: "User"
+  
+    validates :start_date,
+              presence: true
+  
+    validates :duration,
+              presence: true,
+              numericality: { greater_than: 0, Integer: true }
+  
+    validates :title,
+              presence: true,
+              length: { minimum: 5, maximum: 140 }
+  
+    validates :description,
+              presence: true,
+              length: { minimum: 20, maximum: 1000 }
+  
+    validates :price,
+              presence: true,
+              :inclusion => 1..1000,
+              numericality: { greater_than: 0, Integer: true }
+  
+    validates :location,
+              presence: true
+  
+    validate :start_must_be_before_end 
+  
+    validate :is_even_and_divisible_by_five?
+  
+    def start_must_be_before_end
+      errors.add(:start_date, "The start date must be before end date") unless
+        start_date > Time.now
+    end
+  
+    def is_even_and_divisible_by_five?
+      errors.add(:duration, "The duration must be a multiple of 5") unless
+        duration % 5 == 0
+    end
+  end
+  

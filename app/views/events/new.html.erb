@@ -1,35 +1,46 @@
-div class="container">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <br><br><br>
-      <%= form_for resource, as: resource_name, url: new_event_path, html: { class: "form-signin mt-3" } do |f| %>
-        <h1 class="h3 mb-3 font-weight-normal text-center">Créer un event</h1>
-        <%= devise_error_messages! %>
-        <div class="form-group">
-          <%= f.label :start_date, "Date de commencement" %><br />
-          <%= f.datetime :start_date, autofocus: true, class: "form-control" %>
-        </div>
-        <div class="form-group">
-        <%= f.label :duration, "Durée" %><br />
-        <%= f.number :duration, autofocus: true, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= f.label :title, "Titre" %><br />
-          <%= f.text_field :title, autofocus: true, class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= f.label :description, "Description" %><br />
-          <%= f.text_field :description, autofocus: true, autocomplete: "description", class: "form-control" %>
-        </div>
-        <div class="form-group">
-          <%= f.label :price, "prix" %><br />
-          <%= f.number :price, autofocus: true, class: "form-control" %>
-        </div>
-        <div class="actions mt-5">
-          <%= f.submit "créer un nouvel évènement", class: "btn btn-lg btn-primary btn-block" %>
-        </div>
-      <% end %>
-      <%= render "devise/shared/links" %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Eventbrite</title>
+  </head>
+  <body>
+    <br>
+    <h1 class="text-center"> Création d'un évènement</h1>
+    <br>
+    <br>
+    <br>
+    <div class="d-flex justify-content-center align-items-center container ">
+      <div class="row ">
+        <%= form_tag url_for(action: 'create'), method: "post" do %>
+          <form action="">
+            <div class="form-group">
+              <%= label_tag 'Titre' %> <br />
+              <%= text_field_tag 'title', @event.title, class: "form-control", placeholder: 'Titre', autocomplete: 'off' %>
+            </div>
+            <div class="form-group">
+              <%= label_tag 'Description' %> <br />
+              <%= text_field_tag 'description', @event.description, class: "form-control", placeholder: '20 a 1000 caractéres', autocomplete: 'off'%>
+            </div>
+            <div class="form-group">
+              <%= label_tag 'Date de depart' %> <br />
+              <%= text_field_tag 'start_date', @event.start_date, class: "form-control", placeholder: 'Date de debut', autocomplete: 'off'%>
+            </div>
+            <div class="form-group">
+              <%= label_tag 'Durée' %> <br />
+              <%= text_field_tag 'duration', @event.duration, class: "form-control", placeholder: 'tranches de 5 min', autocomplete: 'off'%>
+            </div>
+            <div class="form-group">
+              <%= label_tag 'Prix entrée' %> <br />
+              <%= text_field_tag 'price', @event.price, class: "form-control", placeholder: 'Prix €', autocomplete: 'off'%>
+            </div>
+            <div class="form-group">
+              <%= label_tag 'Lieux' %> <br />
+              <%= text_field_tag 'location', @event.location, class: "form-control", placeholder: 'Ville', autocomplete: 'off'%>
+            </div>
+            <%= submit_tag "Créer l'évènement", class: "btn btn-info" %>  <%= link_to "Revenir à l'accueil", root_path, :class => 'btn btn-secondary'%>
+          </form>
+        <% end%>
+      </div>
     </div>
-  </div>
-</div>
+  </body>
+</html>
